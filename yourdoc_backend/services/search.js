@@ -25,8 +25,20 @@ const searchName = (name) => {
   });
 };
 
+// searching doctors by specialization
+const searchSpecialty = (specialization) => {
+  const sql = `SELECT * FROM doctor WHERE specialization = '${specialization}'`;
+  connection.query(sql, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    console.log(results);
+  });
+};
+
 // calling the functions for the results
 searchName('Jay');
+searchSpecialty('Psychiatry');
 
 // close the database connection
 connection.end();
