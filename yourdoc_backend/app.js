@@ -8,7 +8,8 @@ var userRouter = require('./routes/user');
 var doctorRouter = require('./routes/doctor');
 var appointmentRouter = require('./routes/appointment');
 var patientRouter = require('./routes/patient');
-var loginRouter = require('./routes/login')
+var patientLoginRouter = require('./routes/patient_login')
+var doctorLoginRouter = require('./routes/doctorlogin')
 var cors = require('cors');
 var app = express();
 
@@ -19,7 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/login', loginRouter);
+app.use('/patient_login', patientLoginRouter);
+app.use('/doctorlogin', doctorLoginRouter);
 app.use('/user', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/patient', patientRouter);

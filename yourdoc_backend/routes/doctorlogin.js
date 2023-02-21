@@ -1,13 +1,13 @@
 // imports
 var express = require('express');
 var router = express.Router();
-const user = require('../services/login');
+const doctor = require('../services/doctorlogin');
 
 // logic
 
 router.get('/', async function (req, res, next) {
     try {
-        res.json(await user.getById(req.body));
+        res.json(await doctor.getById(req.body));
     } catch (err) {
         console.error(`Error while getting patient `, err.message);
         next(err);
@@ -17,7 +17,7 @@ router.get('/', async function (req, res, next) {
 
 router.post('/', async function(req,res,next){
     try{
-        res.json(await user.patientInfo(req.body));
+        res.json(await doctor.doctorInfo(req.body));
     }
     catch(err){
         console.error('Wrong Credentials', err.message);

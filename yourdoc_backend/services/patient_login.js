@@ -3,10 +3,10 @@ const helper = require('../helper');
 const config = require('../dbconfig');
 
 async function getById(creds) {
-    const {patient_id} = creds;
+    const {email, password} = creds;
     const result = await db.query(
-      `SELECT *
-      FROM user where id='${patient_id}'`
+      `SELECT name, type, email, dob, address, latlong, blood_group
+    FROM user left join patient on user.id = patient.user_id where user.email='${email}' and user.password='${password}'`
     );
   
     if (!result) {
