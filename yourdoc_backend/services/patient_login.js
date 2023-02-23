@@ -6,7 +6,7 @@ async function getById(creds) {
     const {email, password} = creds;
     const result = await db.query(
       `SELECT name, type, email, dob, address, latlong, blood_group
-    FROM user left join patient on user.id = patient.user_id where user.email='${email}' and user.password='${password}'`
+    FROM user inner join patient on user.id = patient.user_id where user.email='${email}' and user.password='${password}'`
     );
   
     if (!result) {

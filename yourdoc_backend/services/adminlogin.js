@@ -2,11 +2,10 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../dbconfig');
 
-async function getById(creds) {
-  const {email, password} = creds;
+async function getById() {
   const result = await db.query(
-    `SELECT name, type, email, is_approved, specialization, latlong
-    FROM user inner join doctor on user.id = doctor.user_id where user.email='${email}' and user.password='${password}'`
+    `SELECT name, type, specialization, hospital_id
+    FROM user inner join doctor on user.id = doctor.user_id and is_approved = 0`
   );
 
   if (!result) {
@@ -16,7 +15,7 @@ async function getById(creds) {
   return {result}
 }
 
-async function doctorInfo(creds){
+async function adminInfo(creds){
   const {email, password} = creds;
   const result = await db.query(
       `SELECT * FROM user where email='${email}' and password='${password}'`
@@ -30,5 +29,5 @@ async function doctorInfo(creds){
 
 module.exports = {
     getById,
-    doctorInfo
+    adminInfo
   }
