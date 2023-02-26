@@ -8,6 +8,7 @@ var userRouter = require('./routes/user');
 var doctorRouter = require('./routes/doctor');
 var appointmentRouter = require('./routes/appointment');
 var patientRouter = require('./routes/patient');
+var adminRouter = require('./routes/admin');
 var cors = require('cors');
 var app = express();
 
@@ -22,5 +23,6 @@ app.use('/user', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/patient', patientRouter);
 app.use('/appointment', appointmentRouter);
+app.use('/admin', adminRouter);
 
 module.exports = app;
