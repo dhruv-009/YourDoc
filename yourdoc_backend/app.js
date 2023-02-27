@@ -12,6 +12,7 @@ var patientLoginRouter = require('./routes/patient_login');
 var doctorLoginRouter = require('./routes/doctorlogin');
 var adminLoginRouter = require('./routes/adminlogin');
 var registrationRouter = require('./routes/patientRegistration');
+var registrationRouter = require('./routes/doctorRegistration');
 var cors = require('cors');
 var app = express();
 
@@ -30,4 +31,5 @@ app.use('/doctor', doctorRouter);
 app.use('/patient', patientRouter);
 app.use('/appointment', appointmentRouter);
 app.use('/patientRegistration', registrationRouter);
+app.use('/doctorRegistration', registrationRouter);
 module.exports = app;
