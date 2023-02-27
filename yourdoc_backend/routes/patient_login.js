@@ -1,9 +1,7 @@
-// imports
 var express = require('express');
 var router = express.Router();
+// const jwt = require("jsonwebtoken");
 const user = require('../services/patient_login');
-
-// logic
 
 router.get('/', async function (req, res, next) {
     try {
@@ -14,7 +12,11 @@ router.get('/', async function (req, res, next) {
     }
 });
 
+// const token = jwt.sign(user, process.env.MY_SECRET, { expiresIn: "1h"});
 
+// res.cookie("token", token, {
+//     httpOnly: true
+// })
 router.post('/', async function(req,res,next){
     try{
         res.json(await user.patientInfo(req.body));
@@ -26,6 +28,3 @@ router.post('/', async function(req,res,next){
 });
 
 module.exports = router;
-// check cookiee for user info
-// if data found -> get data and render next page
-// if not then authenticate user

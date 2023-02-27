@@ -8,9 +8,10 @@ var userRouter = require('./routes/user');
 var doctorRouter = require('./routes/doctor');
 var appointmentRouter = require('./routes/appointment');
 var patientRouter = require('./routes/patient');
-var patientLoginRouter = require('./routes/patient_login')
-var doctorLoginRouter = require('./routes/doctorlogin')
-var adminLoginRouter = require('./routes/adminlogin')
+var patientLoginRouter = require('./routes/patient_login');
+var doctorLoginRouter = require('./routes/doctorlogin');
+var adminLoginRouter = require('./routes/adminlogin');
+var registrationRouter = require('./routes/patientRegistration');
 var cors = require('cors');
 var app = express();
 
@@ -28,4 +29,5 @@ app.use('/user', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/patient', patientRouter);
 app.use('/appointment', appointmentRouter);
+app.use('/patientRegistration', registrationRouter);
 module.exports = app;
