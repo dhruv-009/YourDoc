@@ -1,6 +1,7 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../dbconfig');
+const bcrypt = require('bcrypt');
 
 async function getRegistrationInfo(creds) {
   const {id} = creds;
@@ -17,8 +18,9 @@ async function getRegistrationInfo(creds) {
 
 async function fillRegisterInfo(creds){
  const {id,name,type,dob,gender,phone,address,postalcode,avatar_url,email, password, specialization, is_approved, hospital_id} = creds;
+ const hashedpassword = await bcrypt.hash(password,7);
   const result = await db.query(
-    `Insert into user values('${id}','${email}','${password}','${name}','${type}','${phone}','${dob}','${gender}','${address}','${postalcode}','${avatar_url}')`
+    `Insert into user values('${id}','${email}','${hashedpassword}','${name}','${type}','${phone}','${dob}','${gender}','${address}','${postalcode}','${avatar_url}')`
   );
   const result1 = await db.query(
     `insert into doctor values('${id}','${name}', '${specialization}', '${is_approved}', '${hospital_id}')`

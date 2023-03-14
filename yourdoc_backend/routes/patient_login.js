@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
-// const jwt = require("jsonwebtoken");
+const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const router = express.Router();
 const user = require('../services/patient_login');
 
-router.get('/', async function (req, res, next) {
+
+
+router.get('/', authenticateToken, async function (req, res, next) {
     try {
         res.json(await user.getById(req.body));
     } catch (err) {
@@ -12,19 +15,30 @@ router.get('/', async function (req, res, next) {
     }
 });
 
-// const token = jwt.sign(user, process.env.MY_SECRET, { expiresIn: "1h"});
-
-// res.cookie("token", token, {
-//     httpOnly: true
-// })
-router.post('/', async function(req,res,next){
-    try{
-        res.json(await user.patientInfo(req.body));
+router.post('/', async function(req, res, next) {
+  try {
+    const patient = await user.patientInfo(req.body);
+    if (patient == null) {
+      return res.status(400).send('Wrong credentials');
     }
-    catch(err){
-        console.error('Wrong Credentials', err.message);
-        next(err);
-    }
+    const accessToken = jwt.sign(patient, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+    console.log(accessToken);
+    res.json({ accessToken: accessToken });
+  } catch (err) {
+    console.error('Error while authenticating patient', err.message);
+    next(err);
+  }
 });
 
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, patient) => {
+    if (err) return res.sendStatus(403);
+    req.patient = patient;
+    next();
+  });
+}
 module.exports = router;

@@ -21,6 +21,12 @@ async function doctorInfo(creds){
   const result = await db.query(
       `SELECT * FROM user where email='${email}' and password='${password}'`
   );
+  if (result) {
+    const result1 = await bcrypt.compare(password, result[0].password);
+    if (!result1) {
+      throw new Error("Password Not Matched");
+    }
+  }
   if (!result) {
       throw new Error("User not found");
   }
