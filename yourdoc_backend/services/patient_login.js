@@ -9,12 +9,6 @@ async function getById(creds) {
       `SELECT name, type, email, password, dob, address, latlong, blood_group
     FROM user inner join patient on user.id = patient.user_id where user.email='${email}'`
     );
-    // if (result) {
-    //   const result1 = await bcrypt.compare(password, result[0].password);
-    //   if (!result1) {
-    //     throw new Error("Password Not Matched");
-    //   }
-    // }
     if (!result) {
         throw new Error("User not found");
     }

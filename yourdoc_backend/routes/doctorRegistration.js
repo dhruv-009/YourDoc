@@ -15,7 +15,20 @@ router.get('/', async function (req, res, next) {
 
 router.post('/', async function(req,res,next){
     try{
-        res.json(await user.fillRegisterInfo(req.body));
+        const userEmail = await user.fillRegisterInfo(req.body);
+        if (userEmail!=null){
+            client.send({
+                to: {
+                    email: userEmail.email
+                },
+                from: {
+                    email: process.env.MY_EMAIL
+                },
+                templateId: 'd-6d25d2cb3e0440128ed1c2ef0efdacbb'
+            }).then(() => {
+                console.log("Email was sent");
+            });
+        }
     }
     catch(err){
         console.error('Wrong Credentials', err.message);
