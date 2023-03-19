@@ -11,6 +11,9 @@
   focus:outline-none ease-linear transition-all duration-150
   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
 }
+.btnTime.selected{
+  @apply bg-pink-600 text-white
+}
 .btnArrow{
   @apply inline-block rounded-full bg-blue-400 p-2 text-white
   shadow-md transition duration-150 ease-in-out hover:bg-pink-600
