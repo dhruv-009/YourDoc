@@ -12,18 +12,28 @@ router.get('/', async function (req, res, next) {
   }
 });
 
-router.post('/', async function (req, res, next) {
+router.post('/multiple', async function (req, res, next) {
   const { doctor_id, availabilities } = req.body;
   try {
     const createdAvailabilities = [];
-    const result = new Promise((res, rej) => {
-      availabilities.forEach(async a => {
-        createdAvailabilities.push(await availability.create({ ...a, doctor_id }))
-      })
-    })
-    result.then(() => {
-      res.json(createdAvailabilities);
-    })
+    for (let i = 0; i < availabilities.length; i++) {
+      createdAvailabilities.push(await availability.create({ ...availabilities[i], doctor_id }))
+    }
+    res.json(createdAvailabilities);
+  } catch (err) {
+    console.error(`Error while creating availability`, err.message);
+    next(err);
+  }
+});
+
+router.put('/multiple', async function (req, res, next) {
+  const { doctor_id, availabilities } = req.body;
+  try {
+    const updatedAvailabilities = [];
+    for (let i = 0; i < availabilities.length; i++) {
+      updatedAvailabilities.push(await availability.updateOrCreate({ ...availabilities[i], doctor_id }))
+    }
+    res.json(updatedAvailabilities);
   } catch (err) {
     console.error(`Error while creating availability`, err.message);
     next(err);
