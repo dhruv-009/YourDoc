@@ -14,6 +14,7 @@ var cors = require('cors');
 var searchRouter = require('./routes/search');
 var app = express();
 
+app.use(cors({ origin: 'http://localhost:3001', credentials: true, methods: 'GET,PUT,POST,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
