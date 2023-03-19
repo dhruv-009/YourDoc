@@ -1,9 +1,33 @@
+import './NavBar.css'
 import { Link } from "react-router-dom";
+import { ThemeToggle } from './ThemeToggle';
+
+const LINKS = [
+  { to: '/', label: 'Home' },
+  { to: '/about', label: 'About' },
+  { to: '/gallery', label: 'Gallery' },
+  { to: '/contact', label: 'Contact Us' },
+  { to: '/appointment', label: 'Appointment' },
+]
+const DownArrowIcon = <svg
+  aria-hidden="true"
+  focusable="false"
+  data-prefix="fas"
+  data-icon="caret-down"
+  className="w-2 ml-2"
+  role="img"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 320 512"
+>
+  <path
+    fill="currentColor"
+    d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+  ></path>
+</svg>;
 
 function Navbar() {
 
   return (
-
     <nav
       className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light"
     >
@@ -37,77 +61,26 @@ function Navbar() {
           <p className="text-xl text-white pr-2 font-semibold">YourDoc</p>
 
           <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
-            <li className="nav-item pl-8 pr-4">
-              <Link className="nav-link text-white opacity-60 hover:opacity-100 focus:opacity-100 p-0"
-                to="/">Home</Link>
-            </li>
-            <li className="nav-item pr-4">
-              <Link
-                className="nav-link text-white opacity-60 hover:opacity-100 focus:opacity-100 p-0"
-                to="/about">About</Link>
-
-            </li>
-            <li className="nav-item pr-4">
-              <Link
-                className="nav-link text-white opacity-60 hover:opacity-100 focus:opacity-100 p-0"
-                to="/gallery">Gallery</Link>
-
-            </li>
-            <li className="nav-item pr-4">
-              <Link
-                className="nav-link text-white opacity-60 hover:opacity-100 focus:opacity-100 p-0"
-                to="/contact">Contact Us
-              </Link>
-            </li>
+            {LINKS.map(l =>
+              <li className="nav-item pl-8 pr-4" key={l.label}>
+                <Link className="nav-link text-white opacity-60 hover:opacity-100 focus:opacity-100 p-0"
+                  to={l.to}>{l.label}</Link>
+              </li>
+            )}
           </ul>
         </div>
 
         <div className="flex items-center relative  pr-8">
           <div className="dropdown relative">
             <button
-              className="
-          dropdown-toggle
-          px-6
-          py-2.5
-          bg-blue-600
-          text-white
-          font-medium
-          text-xs
-          leading-tight
-          uppercase
-          rounded
-          shadow-md
-          hover:bg-blue-700 hover:shadow-lg
-          focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-          active:bg-blue-800 active:shadow-lg active:text-white
-          transition
-          duration-150
-          ease-in-out
-          flex
-          items-center
-          whitespace-nowrap
-        "
+              className="blueBtn"
               type="button"
               id="dropdownMenuButton1h"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               Login
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fas"
-                data-icon="caret-down"
-                className="w-2 ml-2"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 320 512"
-              >
-                <path
-                  fill="currentColor"
-                  d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-                ></path>
-              </svg>
+              {DownArrowIcon}
             </button>
             <ul
               className="
@@ -295,6 +268,7 @@ function Navbar() {
             </li>
           </ul>
         </div>
+        <ThemeToggle />
       </div>
     </nav>
   );
