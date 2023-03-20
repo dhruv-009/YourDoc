@@ -4,6 +4,7 @@ const API_BASE_URL = 'http://localhost:3000';
 
 export function useAppointment() {
   const [loadingState, setLoadingState] = useState('init');
+
   const setAppointment = async (doctorId, patientId, luxSelectedDay, selectedTimes) => {
     const datetime = luxSelectedDay.toFormat('yyyy-LL-dd') + ' ' + selectedTimes[0];
     const body = JSON.stringify({ patient_id: patientId, doctor_id: doctorId, datetime });
@@ -24,5 +25,11 @@ export function useAppointment() {
     return result;
   }
 
-  return { setAppointment, loadingState }
+  const getAppointmentsByPatientId = async (patientId) => {
+    const { data } = await fetch(API_BASE_URL + `/appointment?patient_id=${patientId}`).then(j => j.json())
+
+    return data;
+  }
+
+  return { setAppointment, loadingState, getAppointmentsByPatientId }
 }
