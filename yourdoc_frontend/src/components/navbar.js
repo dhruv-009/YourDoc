@@ -165,7 +165,7 @@ function Navbar() {
         <div className="dropdown relative pr-8">
           <button
             className="
-          dropdown-toggle
+          
           px-6
           py-2.5
           bg-blue-600

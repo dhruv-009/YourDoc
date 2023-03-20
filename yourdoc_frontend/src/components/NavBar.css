@@ -1,5 +1,5 @@
 .blueBtn{
-  @apply dropdown-toggle px-6 py-2.5 bg-blue-600 
+  @apply px-6 py-2.5 bg-blue-600 
   text-white font-medium text-xs leading-tight uppercase rounded 
   shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 
   focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
@@ -8,12 +8,12 @@
 }
 
 .listOnBtn{
-  @apply dropdown-menu min-w-max absolute bg-white text-base 
+  @apply  min-w-max absolute bg-white text-base 
   z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 
   hidden m-0 bg-clip-padding border-none
 }
 
 .listItem {
-  @apply dropdown-item text-sm py-2 px-4 font-normal block w-full 
+  @apply  text-sm py-2 px-4 font-normal block w-full 
   whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100
 }

@@ -1,34 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Appointment.css';
 import { Navbar } from '../../components/NavBar';
 import { TimeSlots } from './TImeSlots';
 import { DaySelector } from './DaySelector';
 import { DoctorCard } from './DoctorCard';
-
-const BASE_URL = 'http://localhost:3000';
-const tempDoctorId = "1";
-
-function useAppointment(doctorUserId) {
-  const [availableSlots, setAvailableSlots] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await fetch(BASE_URL + `/availability?doctor_id=${tempDoctorId}`).then(j => j.json())
-      setAvailableSlots(data);
-    })()
-  }, []);
-
-  return { availableSlots };
-}
+import { DateTime } from 'luxon';
+import { useGetAvailability } from './hooks/useGetAvailability';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetDoctor } from './hooks/useGetDoctor';
+import { useAppointment } from './hooks/useAppointment';
+import { ToastContext } from '../../contexts/contexts';
+const tempCurrUserPatientId = '128';
 
 export function Appointment() {
-  // const availableSlots = [{ day: 'mon', from: "08:30", to: "12:30" }, { day: 'mon', from: "16:30", to: "21:30" }, { day: 'sun', from: "12:00", to: "15:30" }];
-  const { availableSlots } = useAppointment();
-  const [luxSelectedDay, setLuxSelectedDay] = useState();
+  const { doctorId } = useParams();
+  const { availableSlots } = useGetAvailability(doctorId);
+  const { doctor: { name, specialization } = {} } = useGetDoctor(doctorId);
+  const { setAppointment, loadingState } = useAppointment(doctorId);
+  const { showToastFor5s } = useContext(ToastContext);
+  const [luxSelectedDay, setLuxSelectedDay] = useState(() => DateTime.now());
   const [selectedTimes, setSelectedTimes] = useState([]);
+  const navigate = useNavigate();
 
   const handleSetSelectedDay = (day) => {
     setLuxSelectedDay(day);
     setSelectedTimes([]);
+  }
+
+  const handleBookNow = async () => {
+    await setAppointment(doctorId, tempCurrUserPatientId, luxSelectedDay, selectedTimes);
+    const toastText = "Appointment booked for " + luxSelectedDay.toFormat('dd-LL-yyyy ') + selectedTimes[0];
+    showToastFor5s({ toastText });
+    navigate('/');
   }
 
   return (
@@ -36,7 +39,7 @@ export function Appointment() {
       <Navbar />
       <div className="min-h-screen flex flex-col xl:flex-row dark:bg-black bg-gray-100 p-6">
         <div className="flex-1 max-w-screen-sm mx-auto">
-          <DoctorCard />
+          <DoctorCard name={name} specialization={specialization} />
         </div>
         <div className="flex-1 w-full max-w-screen-sm mx-auto flex-wrap">
           <div className="justify-center flex bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-x-scroll mx-auto py-4 px-2 md:mx-12">
@@ -47,7 +50,7 @@ export function Appointment() {
           <TimeSlots selectedDay={luxSelectedDay?.toFormat('ccc')} availableSlots={availableSlots}
             setSelectedTimes={setSelectedTimes} selectedTimes={selectedTimes}
           />
-          <button type="button" className="btnTime" disabled={!selectedTimes.length}>Book Now</button>
+          <button type="button" onClick={handleBookNow} className="btnTime" disabled={!selectedTimes.length || loadingState !== 'init'}>Book Now</button>
         </div>
       </div>
     </div>

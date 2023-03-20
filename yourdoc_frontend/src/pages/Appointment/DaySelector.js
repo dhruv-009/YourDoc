@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DateTime } from 'luxon';
 import './Appointment.css';
 
-export function DaySelector(props) {
-  const { luxSelectedDay = DateTime.now(), setLuxSelectedDay } = props;
-  const luxStartOfWeekDay = luxSelectedDay.startOf('week');
+export function DaySelector({ luxSelectedDay = DateTime.now(), setLuxSelectedDay }) {
+  const [luxInitialSelectedDay] = useState(() => luxSelectedDay);
 
-  return Array(7).fill('d').map((d, i) => {
-    const luxCurrentDay = luxStartOfWeekDay.plus({ days: i });
+  return Array(7).fill('').map((d, i) => {
+    const luxCurrentDay = luxInitialSelectedDay.plus({ days: i });
 
     return <div onClick={() => setLuxSelectedDay(luxCurrentDay)}
       className={luxSelectedDay.toFormat('yyyyMMdd') === luxCurrentDay.toFormat('yyyyMMdd') ? 'day selected' : 'day'}
