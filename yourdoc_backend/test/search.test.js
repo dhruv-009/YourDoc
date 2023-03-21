@@ -61,4 +61,16 @@ describe("searchDocByName", () => {
         );
         expect(result).toEqual({ result: [{ id: 1, name: "John", is_approved: true}]});
     });
+
+    test("should return an empty array if no doctor was found", async () => {
+        const docName = "Mike";
+        db.query = jest.fn().mockImplementationOnce(() => []);
+
+        const result = await searchob.searchName(docName);
+
+        expect(db.query).toHaveBeenCalledWith(
+            `SELECT * FROM doctor WHERE name = '${docName}' and is_approved = 1`
+        );
+        expect(result).toEqual({ result: [] });
+    });
 });
