@@ -21,5 +21,20 @@ describe('searchDocBySpec', () => {
   
       expect(result).toEqual(expectedResult);
     });
+
+    test('returns empty list for unknown specialization', async () => {
+        const spec = 'foot medicine';
+        const expectedResult = { result: { rows: [] } };
+
+        const mockResult = { rows: [] };
+        const querySpy = jest.spyOn(db, 'query').mockResolvedValue(mockResult);
+
+        const result = await searchob.getDocSpec(spec);
+
+        expect(querySpy).toHaveBeenCalledTimes(1);
+        expect(querySpy).toHaveBeenCalledWith("SELECT * FROM doctor WHERE specialization = 'foot medicine' and is_approved = 1");
+
+        expect(result).toEqual(expectedResult);
+    });
 });
   
