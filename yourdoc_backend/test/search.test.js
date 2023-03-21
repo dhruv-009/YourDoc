@@ -110,4 +110,17 @@ describe('searchDocByPinCode', () => {
 
         expect(result.result).toEqual(resultMocked);
     });
+
+    test('should throw error when given an invalid pincode', async () => {
+        const err = new Error('Invalid pin code');
+        db.query.mockRejectedValueOnce(err);
+
+        await expect(
+            searchob.searchPinCode('invalid_pin_code')
+        ).rejects.toThrow();
+
+        expect(db.query).toHaveBeenCalledWith(
+            "SELECT * FROM doctor INNER JOIN user ON address = 'invalid_pin_code' and is_approved = 1;"
+        );
+    });
 });
