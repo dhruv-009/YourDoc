@@ -81,3 +81,33 @@ describe("searchDocByName", () => {
         await expect(searchob.searchName(docName)).rejects.toThrow('Database error');
     });
 });
+
+jest.mock('../services/db');
+describe('searchDocByPinCode', () => {
+    afterEach(() => jest.resetAllMocks());
+    test('should return search result when given valid pincode.', async () => {
+        const resultMocked = [
+            {
+                doctorId: 1,
+                name: "Dr. John",
+                specialization: "General Physician",
+                address: "12345"
+            },
+            {
+                doctorId: 2,
+                name: "Dr. Julia",
+                specialization: "Dermatologist",
+                address: "12345"
+            }
+        ];
+        db.query.mockResolvedValueOnce(resultMocked);
+
+        const result = await searchob.searchPinCode('12345');
+
+        expect(db.query).toHaveBeenCalledWith(
+            "SELECT * FROM doctor INNER JOIN user ON address = '12345' and is_approved = 1;"
+        );
+
+        expect(result.result).toEqual(resultMocked);
+    });
+});
