@@ -46,4 +46,19 @@ describe('searchDocBySpec', () => {
         expect(querySpy).toHaveBeenCalledWith("SELECT * FROM doctor WHERE specialization = 'cardiology' and is_approved = 1");
     });
 });
-  
+
+describe("searchDocByName", () => {
+    test("should return the search result if doctor exists and is approved", async () => {
+        const docName = "John";
+        db.query = jest
+            .fn()
+            .mockImplementationOnce(() => [{ id: 1, name: "John", is_approved: true }]);
+
+        const result = await searchob.searchName(docName);
+
+        expect(db.query).toHaveBeenCalledWith(
+            `SELECT * FROM doctor WHERE name = '${docName}' and is_approved = 1`
+        );
+        expect(result).toEqual({ result: [{ id: 1, name: "John", is_approved: true}]});
+    });
+});
