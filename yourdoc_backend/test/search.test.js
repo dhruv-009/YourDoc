@@ -73,4 +73,11 @@ describe("searchDocByName", () => {
         );
         expect(result).toEqual({ result: [] });
     });
+
+    test('should throw an error when database query fails', async () => {
+        const docName = 'John Doe';
+        db.query.mockRejectedValueOnce(new Error('Database error'));
+
+        await expect(searchob.searchName(docName)).rejects.toThrow('Database error');
+    });
 });
