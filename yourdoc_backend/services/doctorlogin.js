@@ -1,6 +1,7 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../dbconfig');
+const bcrypt = require('bcrypt');
 
 async function getById(creds) {
   const {email, password} = creds;
@@ -19,15 +20,15 @@ async function getById(creds) {
 async function doctorInfo(creds){
   const {email, password} = creds;
   const result = await db.query(
-      `SELECT * FROM user where email='${email}' and password='${password}'`
+      `SELECT * FROM user where email='${email}'`
   );
-  if (result) {
+  if (result.length > 0) {
     const result1 = await bcrypt.compare(password, result[0].password);
     if (!result1) {
       throw new Error("Password Not Matched");
     }
   }
-  if (!result) {
+  if (!result || result.length == 0) {
       throw new Error("User not found");
   }
   return {result}

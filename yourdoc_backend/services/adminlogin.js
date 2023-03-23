@@ -15,17 +15,34 @@ async function getById() {
   return {result}
 }
 
+// async function adminInfo(creds){
+//   const {email, password} = creds;
+//   const result = await db.query(
+//       `SELECT * FROM user where email='${email}' and password='${password}'`
+//   );
+//   if (!result) {
+//       throw new Error("User not found");
+//   }
+//   return {result}
+  
+// }
+
 async function adminInfo(creds){
   const {email, password} = creds;
-  const result = await db.query(
-      `SELECT * FROM user where email='${email}' and password='${password}'`
-  );
-  if (!result) {
+  const userResult = await db.query(`SELECT * FROM user WHERE email='${email}'`);
+
+  if (!userResult || userResult.length === 0) {
       throw new Error("User not found");
   }
-  return {result}
-  
+
+  const passwordResult = await db.query(`SELECT * FROM user WHERE email='${email}' AND password='${password}'`);
+  if(!passwordResult || passwordResult.length === 0){
+      throw new Error("Password Not Matched");
+  }
+
+  return {result: userResult, result1: undefined};
 }
+
 
 module.exports = {
     getById,
