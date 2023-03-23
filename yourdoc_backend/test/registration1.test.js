@@ -114,4 +114,16 @@ describe('getRegistrationInfo', () => {
     expect(db.query).toHaveBeenCalledTimes(1);
     expect(db.query).toHaveBeenCalledWith(`select * from user inner join patient on user.id = patient.user_id where user.id = '${creds.id}'`);
   });
+
+  test('should throw an error when user is not found', async () => {
+    // Arrange
+    db.query = jest.fn().mockResolvedValue({ result: { rows: [] } });
+    const expectedError = new Error('User not found');
+
+    // Act & Assert
+    await expect(patient.getRegistrationInfo(creds)).rejects.toThrow(expectedError);
+    expect(db.query).toHaveBeenCalledTimes(1);
+    expect(db.query).toHaveBeenCalledWith(`select * from user inner join patient on user.id = patient.user_id where user.id = '${creds.id}'`);
+  });
+
 });
