@@ -68,3 +68,50 @@ describe('createUserPatient', () => {
     });
 
 });
+
+
+describe('getRegistrationInfo', () => {
+  const creds = { id: '123' };
+
+  beforeAll(() => {
+    // Mock the db.query method to return a user object
+    db.query = jest.fn().mockResolvedValue({
+      result: {
+        rows: [{
+          name: 'John Doe',
+          dob: '1990-01-01',
+          phone: '1234567890',
+          address: '123 Main St',
+          latlong: '0,0',
+          avatar_url: 'https://example.com/avatar.jpg',
+          blood_group: 'A+'
+        }]
+      }
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('should return registration info when user is found', async () => {
+    // Arrange
+    const expected = {
+      name: 'John Doe',
+      dob: '1990-01-01',
+      phone: '1234567890',
+      address: '123 Main St',
+      latlong: '0,0',
+      avatar_url: 'https://example.com/avatar.jpg',
+      blood_group: 'A+'
+    };
+
+    // Act
+    const registrationInfo = await patient.getRegistrationInfo(creds);
+
+    // Assert
+    expect(registrationInfo.result.result.rows[0]).toEqual(expected);
+    expect(db.query).toHaveBeenCalledTimes(1);
+    expect(db.query).toHaveBeenCalledWith(`select * from user inner join patient on user.id = patient.user_id where user.id = '${creds.id}'`);
+  });
+});
