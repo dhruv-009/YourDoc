@@ -40,4 +40,31 @@ describe('createUserPatient', () => {
         expect(db.query).toHaveBeenCalledWith(expect.stringContaining('INSERT INTO user'));
         expect(db.query).toHaveBeenCalledWith(expect.stringContaining('INSERT INTO patient'));
       });
+
+      test('should return an error message if there is an error creating the user', async () => {
+        // Arrange
+        const creds = {
+          name: 'John Doe',
+          dob: '1990-01-01',
+          gender: 'male',
+          phone: '1234567890',
+          address: '123 Main St',
+          latlong: '0,0',
+          avatar_url: 'https://example.com/avatar.jpg',
+          email: 'john@example.com',
+          password: 'password',
+          blood_group: 'A+',
+        };
+        const errorMessage = 'Error creating user';
+        jest.spyOn(bcrypt, 'hash').mockRejectedValue(new Error(errorMessage));
+        jest.spyOn(db, 'query').mockRejectedValue(new Error(errorMessage));
+      
+        // Act and Assert
+        await expect(patient.createUserPatient(creds)).rejects.toThrow(errorMessage);
+      
+        // Verify that the mocked functions were called with the correct arguments
+        expect(bcrypt.hash).toHaveBeenCalledWith(creds.password, 7);
+        expect(db.query).toHaveBeenCalledTimes(2);
+    });
+
 });
