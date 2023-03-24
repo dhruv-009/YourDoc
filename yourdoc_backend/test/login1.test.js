@@ -120,4 +120,17 @@ describe('adminInfo function', () => {
     expect(db.query).toHaveBeenCalledTimes(1);
     });
 
+  test('should throw an error for incorrect password', async () => {
+      db.query = jest.fn().mockImplementation((query) => {
+         if (query.includes('SELECT * FROM user WHERE email') && 
+            query.includes(`AND password='${creds.password}'`)) {
+            return Promise.resolve([]);
+         }
+         return Promise.resolve([{ id: 1, email: 'example@mail.com', password: '123456' }]);
+      });
+      await expect(admin.adminInfo(creds)).rejects.toThrowError('Password Not Matched');
+  
+      expect(db.query).toHaveBeenCalledTimes(2);
+  });
+
 });
