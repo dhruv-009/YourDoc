@@ -134,3 +134,30 @@ describe('adminInfo function', () => {
   });
 
 });
+
+
+describe('getById function', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('returns user data when given valid email', async () => {
+      const expectedRows = [{
+        name: 'John Doe',
+        type: 'patient',
+        email: 'johndoe@example.com',
+        password: 'password123',
+        dob: '1990-01-01',
+        address: '123 Main St',
+        latlong: '0.000000,0.000000',
+        blood_group: 'AB+'
+      }];
+      db.query.mockResolvedValue(expectedRows);
+    
+      const result = await patient.getById({ email: 'johndoe@example.com' });
+    
+      expect(db.query).toHaveBeenCalledTimes(1);
+      expect(db.query).toHaveBeenCalledWith(expect.any(String));
+      expect(result).toEqual({ result: expectedRows, message: 'User found successfully' });
+    });
+  });
