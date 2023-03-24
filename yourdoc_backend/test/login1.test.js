@@ -97,3 +97,20 @@ describe('patientInfo function', () => {
   });
 
 });
+
+
+describe('adminInfo function', () => {
+
+  const creds = {
+  email: 'example@mail.com',
+  password: '123456'
+  };
+  
+  test('should return a result object', async () => {
+  db.query = jest.fn(() => Promise.resolve([{ id: 1, email: 'example@mail.com', password: '123456' }]));
+  const result = await admin.adminInfo(creds);
+
+  expect(db.query).toHaveBeenCalledTimes(2);
+  expect(result).toEqual({result: [{ id: 1, email: 'example@mail.com', password: '123456' }], result1: undefined});
+  });
+});
