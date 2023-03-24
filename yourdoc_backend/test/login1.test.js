@@ -113,4 +113,11 @@ describe('adminInfo function', () => {
   expect(db.query).toHaveBeenCalledTimes(2);
   expect(result).toEqual({result: [{ id: 1, email: 'example@mail.com', password: '123456' }], result1: undefined});
   });
+
+  test('should throw an error for invalid email', async () => {
+    db.query = jest.fn(() => Promise.resolve([]));
+    await expect(admin.adminInfo(creds)).rejects.toThrowError('User not found');
+    expect(db.query).toHaveBeenCalledTimes(1);
+    });
+
 });
