@@ -160,4 +160,16 @@ describe('getById function', () => {
       expect(db.query).toHaveBeenCalledWith(expect.any(String));
       expect(result).toEqual({ result: expectedRows, message: 'User found successfully' });
     });
+
+    test('returns an error message when user is not found', async () => {
+      const email = 'nonexistent.user@example.com';
+      db.query.mockResolvedValueOnce([]);
+  
+      const result = await patient.getById({ email });
+  
+      expect(db.query).toHaveBeenCalledTimes(1);
+      expect(db.query).toHaveBeenCalledWith(expect.any(String));
+      expect(result).toEqual({ result: [], message: 'User not found!' });
+    });
+
   });
