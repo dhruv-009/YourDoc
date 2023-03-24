@@ -184,4 +184,11 @@ describe('getById function', () => {
     expect(db.query).toHaveBeenCalledTimes(1);
     expect(result).toEqual({result: [{ name: 'John Doe', type: 'Doctor', specialization: 'Gynecologist', hospital_id: '543210' }]});
     });
+
+    test('should throw an error for empty result', async () => {
+      db.query = jest.fn(() => Promise.resolve(null));
+      await expect(admin.getById()).rejects.toThrowError('User not found');
+    
+      expect(db.query).toHaveBeenCalledTimes(1);
+      });  
   });
