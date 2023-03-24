@@ -173,3 +173,15 @@ describe('getById function', () => {
     });
 
   });
+
+
+  describe('admin getById function', () => {
+
+    test('should return a result object', async () => {
+    db.query = jest.fn(() => Promise.resolve([{ name: 'John Doe', type: 'Doctor', specialization: 'Gynecologist', hospital_id: '543210' }]));
+    const result = await admin.getById();
+  
+    expect(db.query).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({result: [{ name: 'John Doe', type: 'Doctor', specialization: 'Gynecologist', hospital_id: '543210' }]});
+    });
+  });
