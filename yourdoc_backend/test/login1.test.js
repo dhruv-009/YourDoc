@@ -67,4 +67,33 @@ describe('patientInfo function', () => {
     expect(result).toEqual({ data, message: 'success' });
   });
 
+  test('returns an error message when given correct email but wrong password', async () => {
+    const email = 'foo@example.com';
+    const password = 'bar';
+    const creds = { email, password };
+    const data = {
+      id: 1,
+      name: 'John Doe',
+      email,
+      password: '$2b$10$123456789012345678901234567890123456789012345678901234567890',
+      user_id: 1,
+      age: 30
+    };
+
+    db.query.mockResolvedValue([{ ...data }]);
+
+    helper.emptyOrRows.mockReturnValue([data]);
+
+    bcrypt.compare.mockResolvedValue(false);
+
+    const result = await patient.patientInfo(creds);
+
+    expect(db.query).toHaveBeenCalledWith(
+      `SELECT * FROM user u, patient p where u.id=p.user_id and u.email='${email}'`
+    );
+    expect(helper.emptyOrRows).toHaveBeenCalledWith([{ ...data }]);
+    expect(bcrypt.compare).toHaveBeenCalledWith(password, data.password);
+    expect(result).toEqual({ message: 'Wrong email/password' });
+  });
+
 });
