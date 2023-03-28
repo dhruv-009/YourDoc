@@ -1,12 +1,13 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../dbconfig');
-var nodemailer = require('nodemailer');
+const emailsender = require("./Email");
+
 
 async function getDoctors(page = 1) {
     const offset = helper.getOffset(page, config.listPerPage);
     const rows = await db.query(
-        'SELECT * FROM user WHERE type = "doctor" AND is_approved = false'
+        'SELECT id, email, name, phone, dob, gender, address, latlong FROM user INNER JOIN doctor ON user.id = doctor.user_id WHERE doctor.is_approved = false;'
     );
     const data = helper.emptyOrRows(rows);
     const meta = { page };
@@ -17,40 +18,63 @@ async function getDoctors(page = 1) {
     }
 }
 
-async function approveDoctor(userId) {
-    const update = await db.query(
-        `UPDATE user SET is_approved = true WHERE id="${userId}"`
-      );
+async function approveDoctor(userId) {  
 
-      let message = 'Error in Updating Doctor';
+  getEmail(userId,true);
+  const update = await db.query(
+      `UPDATE doctor SET is_approved = true WHERE user_id="${userId}"`
+    );
 
-      if (update.affectedRows) {
-        message = 'Doctor Registeration Sucessfull!';
-      }
-      const data = helper.emptyOrRows(update);
-    
-      return {
-        message, data
-      };
+    let message = 'Error in Updating Doctor';
+
+    if (update.affectedRows) {
+      message = 'Doctor Registeration Sucessfull!';
+    }
+    const data = helper.emptyOrRows(update);
+  
+    return {
+      message, data
+    };
 }
 
 async function rejectDoctor(userId) {
-    const update = await db.query(
-        `DELETE FROM user WHERE id="${userId}"`
-      );
 
-      let message = 'Error in Removing Doctor';
+  getEmail(userId, false);
+  const update = await db.query(
+      `DELETE FROM doctor WHERE user_id="${userId}"`
+    );
 
-      if (update.affectedRows) {
-        message = 'Doctor Rejected Sucessfull!';
-      }
-      const data = helper.emptyOrRows(update);
-    
-      return {
-        message, data
-      };
+    let message = 'Error in Removing Doctor';
+
+    if (update.affectedRows) {
+      message = 'Doctor Rejected Sucessfull!';
+    }
+    const data = helper.emptyOrRows(update);
+  
+    return {
+      message, data
+    };
 }
 
+async function getEmail(userId, bool){
+  try {
+    const mail = await db.query(
+      `SELECT name, email FROM user WHERE id="${userId}"`
+    );
+  
+    const { name, email } = mail[0];
+  
+    try {
+      emailsender.sendEmail(name, email, bool);
+    } catch (err) {
+      console.error(`Error sending email`, err.message);
+      next(err);
+    }
+  } catch (err) {
+    console.error(`Error while getting email from user`, err.message);
+    next(err);
+  }
+}  
 
 
 module.exports = {
