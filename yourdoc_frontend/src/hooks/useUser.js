@@ -13,5 +13,20 @@ export function useUser() {
     return data;
   }
 
-  return { getUserById, getUserByIdNType }
+  const setUserPatient = async (user) => {
+    // to send email remove no_email: true and just stringify user
+    const body = JSON.stringify({ ...user, no_email: true });
+    await fetch(API_BASE_URL + '/patientRegistration', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body
+    }).then(j => j.json());
+  }
+
+  return { getUserById, getUserByIdNType, setUserPatient }
+
+  // return { getUserById, getUserByIdNType }
 }

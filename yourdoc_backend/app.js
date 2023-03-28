@@ -9,7 +9,10 @@ var doctorRouter = require('./routes/doctor');
 var appointmentRouter = require('./routes/appointment');
 var availabilityRouter = require('./routes/availability');
 var patientRouter = require('./routes/patient');
-var adminRouter = require('./routes/admin');
+var loginRouter = require('./routes/patient_login');
+var registrationPatientRouter = require('./routes/patientRegistration');
+var registrationDoctorRouter = require('./routes/doctorRegistration');
+var adminLoginRouter = require('./routes/adminlogin');
 var cors = require('cors');
 var searchRouter = require('./routes/search');
 var app = express();
@@ -22,12 +25,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
 app.use('/user', userRouter);
 app.use('/doctor', doctorRouter);
 app.use('/patient', patientRouter);
 app.use('/appointment', appointmentRouter);
-app.use('/availability', availabilityRouter);
-app.use('/admin', adminRouter);
-app.use('/search', searchRouter);
-
+app.use('/patientRegistration', registrationPatientRouter);
+app.use('/doctorRegistration', registrationDoctorRouter);
+app.use('/adminlogin', adminLoginRouter);
 module.exports = app;

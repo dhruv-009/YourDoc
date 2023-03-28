@@ -5,9 +5,10 @@ import { ThemeToggle } from './ThemeToggle';
 const LINKS = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
-  { to: '/gallery', label: 'Gallery' },
-  { to: '/contact', label: 'Contact Us' },
-  { to: '/profile', label: 'Profile' },
+  // { to: '/gallery', label: 'Gallery' },
+  { to: '/contact', label: 'Contact Us' }
+  // { to: '/profile', label: 'Profile' },
+  // { to: '/patientRegistration', label: 'SignUp' }
 ]
 const DownArrowIcon = <svg
   aria-hidden="true"
@@ -263,7 +264,7 @@ function Navbar() {
               text-gray-700
               hover:bg-gray-100
             "
-                to="/patientRegistration"
+                to="/signup"
               >Patient Registration</Link>
             </li>
           </ul>
