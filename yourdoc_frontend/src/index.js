@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'tw-elements';
 import Home from './pages/Home/Home';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Contact from './pages/Contact/Contact';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import UserProfile from './pages/AdminDashboard/UserProfile';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +24,14 @@ const router = createBrowserRouter([
   {
     path: "/contact",
     element: <Contact />,
+  },
+  {
+    path: "/admindashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/admindashboard/userProfile/:id",
+    element: <UserProfile />
   },
 ]);
 
