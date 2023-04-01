@@ -1,12 +1,13 @@
+import { Overlay } from "../../components/Overlay";
+
 export function DoctorCard({ name, specialization }) {
-  return <figure className="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
-    <img className="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto" src="/sarah-dayan.jpg" alt="" width="384" height="512" />
+  return <figure className="relative md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
+    {!name ? <Overlay /> : null}
+    <img className="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto" src="https://static.vecteezy.com/system/resources/previews/001/840/618/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="" width="384" height="512" />
     <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
       <blockquote>
         <p className="text-lg font-medium dark:text-gray-300">
-          “Tailwind CSS is the only framework that I've seen scale
-          on large teams. It’s easy to customize, adapts to any design,
-          and the build size is tiny.”
+          “Our doctors are highly qualified and verified”
         </p>
       </blockquote>
       <figcaption className="font-medium">

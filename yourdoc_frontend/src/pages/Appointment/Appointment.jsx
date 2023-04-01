@@ -5,12 +5,13 @@ import { TimeSlots } from './TImeSlots';
 import { DaySelector } from './DaySelector';
 import { DoctorCard } from './DoctorCard';
 import { DateTime } from 'luxon';
-import { useGetAvailability } from './hooks/useGetAvailability';
+import { useGetAvailability } from '../../hooks/useGetAvailability';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetDoctor } from './hooks/useGetDoctor';
-import { useAppointment } from './hooks/useAppointment';
+import { useGetDoctor } from '../../hooks/useGetDoctor';
+import { useAppointment } from '../../hooks/useAppointment';
 import { ToastContext } from '../../contexts/contexts';
-const tempCurrUserPatientId = '128';
+import { tempCurrUserPatientId } from '../../utils/constants';
+import { Overlay } from '../../components/Overlay';
 
 export function Appointment() {
   const { doctorId } = useParams();
@@ -41,7 +42,8 @@ export function Appointment() {
         <div className="flex-1 max-w-screen-sm mx-auto">
           <DoctorCard name={name} specialization={specialization} />
         </div>
-        <div className="flex-1 w-full max-w-screen-sm mx-auto flex-wrap">
+        <div className="relative flex-1 w-full max-w-screen-sm mx-auto flex-wrap">
+          {!availableSlots.length ? <Overlay /> : null}
           <div className="justify-center flex bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-x-scroll mx-auto py-4 px-2 md:mx-12">
             {/* <button type="button" className="btnArrow">←</button> */}
             <DaySelector luxSelectedDay={luxSelectedDay} setLuxSelectedDay={handleSetSelectedDay} />

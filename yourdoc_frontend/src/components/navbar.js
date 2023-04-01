@@ -7,7 +7,7 @@ const LINKS = [
   { to: '/about', label: 'About' },
   { to: '/gallery', label: 'Gallery' },
   { to: '/contact', label: 'Contact Us' },
-  { to: '/appointment', label: 'Appointment' },
+  { to: '/profile', label: 'Profile' },
 ]
 const DownArrowIcon = <svg
   aria-hidden="true"
