@@ -1,0 +1,28 @@
+import { useState } from "react";
+
+const API_BASE_URL = 'http://localhost:3000';
+
+export function useAppointment() {
+  const [loadingState, setLoadingState] = useState('init');
+  const setAppointment = async (doctorId, patientId, luxSelectedDay, selectedTimes) => {
+    const datetime = luxSelectedDay.toFormat('yyyy-LL-dd') + ' ' + selectedTimes[0];
+    const body = JSON.stringify({ patient_id: patientId, doctor_id: doctorId, datetime });
+    setLoadingState('isLoading');
+    const result = await fetch(API_BASE_URL + '/appointment', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body
+    }).then(j => {
+      setLoadingState('isSuccess');
+      return j.json();
+    })
+      .catch(() => setLoadingState('isFail'));
+
+    return result;
+  }
+
+  return { setAppointment, loadingState }
+}

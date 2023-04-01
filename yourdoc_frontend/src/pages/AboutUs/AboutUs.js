@@ -1,12 +1,12 @@
-import { Navbar } from "../../components/navbar";
+import { HomeImage } from "../../components/HomeImage";
+import { Navbar } from "../../components/NavBar";
 import Footer from "../Footer";
-import Homeimage from "../Homeimage";
 
 function AboutUs() {
     return (
         <div className="bg-dark">
             <Navbar />
-            <Homeimage />
+            <HomeImage />
 
             <div className='text-center bg-blue-400'>
 

@@ -36,10 +36,7 @@ async function getByPatientId(patientId, page = 1) {
   const data = helper.emptyOrRows(rows);
   const meta = { page };
 
-  return {
-    data,
-    meta
-  }
+  return { data, meta }
 }
 
 async function create(appointment) {
