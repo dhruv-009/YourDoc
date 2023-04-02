@@ -5,7 +5,7 @@ const { v4: uuid } = require('uuid');
 async function getByDoctorId(doctorId) {
   const rows = await db.query(
     `SELECT day, from_time, to_time FROM availability
-    WHERE user_id=${doctorId}`
+    WHERE user_id='${doctorId}'`
   );
   const data = helper.emptyOrRows(rows);
 
