@@ -28,5 +28,17 @@ router.get('/specialization/:spec', async (req, res, next) => {
     }
 });
 
+// searching doctors by pincode
+router.get('/pincode/:pincode', async (req, res, next) => {
+    try {
+        console.log("Param:"+req.params);
+        const pinCode = req.params.pincode;
+        res.json(await searchService.searchPinCode(pinCode));
+    } catch (err) {
+        console.error(`Error while searching doctors by pincode`, err.message);
+        next(err);
+    }
+});
+
 
 module.exports = router;
