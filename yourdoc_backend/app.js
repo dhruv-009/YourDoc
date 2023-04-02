@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
+const dotenv = require('dotenv');
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
@@ -14,17 +16,15 @@ const doctorLoginRouter = require('./routes/doctorlogin');
 const adminLoginRouter = require('./routes/adminlogin');
 const registrationPatientRouter = require('./routes/patientRegistration');
 const registrationDoctorRouter = require('./routes/doctorRegistration');
-const search = require('./routes/search');
+const searchRouter = require('./routes/search');
 const authenticateUserRouter = require('./authenticateUser');
-const cors = require('cors');
-const dotenv = require('dotenv');
+const adminRouter = require('./routes/admin');
 
 dotenv.config();
-const adminRouter = require('./routes/admin');
-const searchRouter = require('./routes/search');
+
 const app = express();
 app.use(authenticateUserRouter);
-app.use(cors({ origin: 'http://localhost:3001', credentials: true, methods: 'GET,PUT,POST,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }));
+app.use(cors({ origin: 'http://localhost:3001', credentials: true, methods: 'GET,PUT,POST,DELETE,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -41,7 +41,7 @@ app.use('/patient', patientRouter);
 app.use('/appointment', appointmentRouter);
 app.use('/patientRegistration', registrationPatientRouter);
 app.use('/doctorRegistration', registrationDoctorRouter);
-app.use('/search', search);
+app.use('/search', searchRouter);
 app.use('/availability', availabilityRouter);
 app.use('/admin', adminRouter);
 app.use('/search', searchRouter);
