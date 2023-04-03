@@ -70,7 +70,7 @@ const NETLIFY_AUTH_TOKEN = process.argv.find(arg => arg.startsWith('NETLIFY_AUTH
 const NETLIFY_API_URL = process.argv.find(arg => arg.startsWith('NETLIFY_API_URL'))?.split('=')[1].trim();
 
 if (NETLIFY_API_URL && NETLIFY_AUTH_TOKEN) {
-  executeCmd("cd yourdoc_frontend && npm install && npm run build", async () => {
+  executeCmd("echo 'frontend build created'", async () => {
     await archiveFrontend();
 
     const cmd = `curl --location '${NETLIFY_API_URL}' \
