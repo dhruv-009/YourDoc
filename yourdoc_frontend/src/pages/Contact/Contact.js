@@ -1,4 +1,4 @@
-import { Navbar } from "../../components/NavBar";
+import { Navbar } from "../../components/nav-bar";
 import Footer from "../Footer";
 import Img2 from '../../photos/gallery1.jpg'
 

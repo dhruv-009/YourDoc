@@ -6,7 +6,7 @@ if [ "$NETLIFY_AUTH_TOKEN" != "" ]; then
   cd yourdoc_frontend
   rm -rf build
   npm install
-  npm run build
+  ENV=production && npm run build
   cd ..
   node build.js NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN NETLIFY_API_URL=$NETLIFY_API_URL
 else

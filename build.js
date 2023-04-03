@@ -22,7 +22,7 @@ function archiveFrontend() {
   const frontEndZipPathNFileName = __dirname + '/frontend_build.zip';
   if (!fs.existsSync(frontEndZipPathNFileName)) {
     console.error("Build folder doesn't exist!!");
-    return;
+    return 'failed';
   }
 
   // create a file to stream archive data to.
@@ -76,10 +76,11 @@ const NETLIFY_AUTH_TOKEN = process.argv.find(arg => arg.startsWith('NETLIFY_AUTH
 const NETLIFY_API_URL = process.argv.find(arg => arg.startsWith('NETLIFY_API_URL'))?.split('=')[1].trim();
 
 if (NETLIFY_API_URL && NETLIFY_AUTH_TOKEN) {
-  // executeCmd("echo 'frontend build created'", 
   (
     async () => {
-      await archiveFrontend();
+      if ((await archiveFrontend()) === 'failed') {
+        return;
+      }
 
       const cmd = `curl --location '${NETLIFY_API_URL}' \
     --header 'Authorization: Bearer ${NETLIFY_AUTH_TOKEN}' \
@@ -89,7 +90,6 @@ if (NETLIFY_API_URL && NETLIFY_AUTH_TOKEN) {
       executeCmd(cmd);
     }
   )();
-  // );
 } else {
   console.error('Env variables missing!!')
 }
