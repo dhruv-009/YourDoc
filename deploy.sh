@@ -4,6 +4,7 @@ source .env
 if [ "$NETLIFY_AUTH_TOKEN" != "" ]; then
   npm install
   cd yourdoc_frontend
+  rm -rf build
   npm install
   npm run build
   cd ..

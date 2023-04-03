@@ -3,7 +3,7 @@ import OurDoctors from '../OurDoctors';
 import Footer from '../Footer';
 import HomeQuote from '../HomeQuote';
 import Mission from '../Mission';
-import { Navbar } from '../../components/NavBar';
+import { Navbar } from '../../components/nav-bar';
 import { HomeImage } from '../../components/HomeImage';
 
 function Home() {
