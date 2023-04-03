@@ -19,14 +19,16 @@ function executeCmd(cmd, cb) {
 }
 
 function archiveFrontend() {
-  const frontEndZipPathNFileName = __dirname + '/frontend_build.zip';
-  if (!fs.existsSync(frontEndZipPathNFileName)) {
+  const frontEndZipOutputPathNFileName = __dirname + '/frontend_build.zip';
+  const frontEndBuildFolderPath = __dirname + '/yourdoc_frontend/build/';
+
+  if (!fs.existsSync(frontEndBuildFolderPath)) {
     console.error("Build folder doesn't exist!!");
     return 'failed';
   }
 
   // create a file to stream archive data to.
-  const output = fs.createWriteStream(frontEndZipPathNFileName);
+  const output = fs.createWriteStream(frontEndZipOutputPathNFileName);
   const archive = archiver('zip', {
     zlib: { level: 9 } // Sets the compression level.
   });
@@ -64,7 +66,7 @@ function archiveFrontend() {
   archive.pipe(output);
 
   // append files from a sub-directory, putting its contents at the root of archive
-  archive.directory('yourdoc_frontend/build/', false);
+  archive.directory(frontEndBuildFolderPath, false);
 
   // finalize the archive (ie we are done appending files but streams have to finish yet)
   // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
@@ -83,9 +85,9 @@ if (NETLIFY_API_URL && NETLIFY_AUTH_TOKEN) {
       }
 
       const cmd = `curl --location '${NETLIFY_API_URL}' \
-    --header 'Authorization: Bearer ${NETLIFY_AUTH_TOKEN}' \
-    --header 'Content-Type: application/zip' \
-    --data-binary '@frontend_build.zip'`;
+      --header 'Authorization: Bearer ${NETLIFY_AUTH_TOKEN}' \
+      --header 'Content-Type: application/zip' \
+      --data-binary '@frontend_build.zip'`;
 
       executeCmd(cmd);
     }
