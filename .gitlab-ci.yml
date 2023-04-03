@@ -40,3 +40,5 @@ deploy:
   script:
     - bash deploy.sh
   environment: production
+  only:
+    - main
