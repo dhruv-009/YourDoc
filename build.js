@@ -69,13 +69,17 @@ function archiveFrontend() {
 const NETLIFY_AUTH_TOKEN = process.argv.find(arg => arg.startsWith('NETLIFY_AUTH_TOKEN'))?.split('=')[1].trim();
 const NETLIFY_API_URL = process.argv.find(arg => arg.startsWith('NETLIFY_API_URL'))?.split('=')[1].trim();
 
-executeCmd("cd yourdoc_frontend && npm install && npm run build", async () => {
-  await archiveFrontend();
+if (NETLIFY_API_URL && NETLIFY_AUTH_TOKEN) {
+  executeCmd("cd yourdoc_frontend && npm install && npm run build", async () => {
+    await archiveFrontend();
 
-  const cmd = `curl --location '${NETLIFY_API_URL}' \
-  --header 'Authorization: Bearer ${NETLIFY_AUTH_TOKEN}' \
-  --header 'Content-Type: application/zip' \
-  --data-binary '@frontend_build.zip'`;
+    const cmd = `curl --location '${NETLIFY_API_URL}' \
+    --header 'Authorization: Bearer ${NETLIFY_AUTH_TOKEN}' \
+    --header 'Content-Type: application/zip' \
+    --data-binary '@frontend_build.zip'`;
 
-  executeCmd(cmd);
-});
+    executeCmd(cmd);
+  });
+} else {
+  console.error('Env variables missing!!')
+}
