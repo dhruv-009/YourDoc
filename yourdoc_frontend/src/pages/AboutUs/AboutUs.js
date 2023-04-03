@@ -1,5 +1,5 @@
 import { HomeImage } from "../../components/HomeImage";
-import { Navbar } from "../../components/NavBar";
+import { Navbar } from "../../components/nav-bar";
 import Footer from "../Footer";
 
 function AboutUs() {

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './Appointment.css';
-import { Navbar } from '../../components/NavBar';
+import { Navbar } from '../../components/nav-bar';
 import { TimeSlots } from './TImeSlots';
 import { DaySelector } from './DaySelector';
 import { DoctorCard } from './DoctorCard';

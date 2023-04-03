@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Navbar } from "../../components/NavBar";
+import { Navbar } from "../../components/nav-bar";
 import { Overlay } from "../../components/Overlay";
 import { RadioInput2 } from "../../components/RadioInput";
 import { Fields, useLoginPage } from "./useLoginPage";
