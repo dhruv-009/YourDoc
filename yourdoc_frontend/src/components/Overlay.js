@@ -1,7 +1,7 @@
 export function Overlay() {
   return <div className="absolute bg-white bg-opacity-60 z-10 h-full w-full flex items-center justify-center">
     <div className="flex items-center">
-      <span className="text-3xl mr-4">Loading</span>
+      {/* <span className="text-3xl mr-4">Loading</span> */}
       <svg className="animate-spin h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none"
         viewBox="0 0 24 24">
         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

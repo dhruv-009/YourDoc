@@ -13,5 +13,33 @@ export function useUser() {
     return data;
   }
 
-  return { getUserById, getUserByIdNType }
+  const getPatientAccessByEmailNPassword = async (email, password) => {
+    const body = JSON.stringify({ email, password });
+
+    const { data } = await fetch(API_BASE_URL + '/patientlogin', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body
+    }).then(j => j.json());
+
+    return data;
+  }
+
+  const setUserPatient = async (user) => {
+    // to send email remove no_email: true and just stringify user
+    const body = JSON.stringify({ ...user, no_email: true });
+    await fetch(API_BASE_URL + '/patientregistration', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body
+    }).then(j => j.json());
+  }
+
+  return { getUserById, getUserByIdNType, setUserPatient, getPatientAccessByEmailNPassword }
 }

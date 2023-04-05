@@ -10,8 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGetDoctor } from '../../hooks/useGetDoctor';
 import { useAppointment } from '../../hooks/useAppointment';
 import { ToastContext } from '../../contexts/contexts';
-import { tempCurrUserPatientId } from '../../utils/constants';
 import { Overlay } from '../../components/Overlay';
+import { useCookies } from 'react-cookie';
+import jwtDecode from 'jwt-decode';
 
 export function Appointment() {
   const { doctorId } = useParams();
@@ -21,7 +22,13 @@ export function Appointment() {
   const { showToastFor5s } = useContext(ToastContext);
   const [luxSelectedDay, setLuxSelectedDay] = useState(() => DateTime.now());
   const [selectedTimes, setSelectedTimes] = useState([]);
+  const [cookie] = useCookies(["session"]);
   const navigate = useNavigate();
+  let currUserPatientId;
+
+  try {
+    currUserPatientId = jwtDecode(cookie.session).id;
+  } catch { }
 
   const handleSetSelectedDay = (day) => {
     setLuxSelectedDay(day);
@@ -29,7 +36,7 @@ export function Appointment() {
   }
 
   const handleBookNow = async () => {
-    await setAppointment(doctorId, tempCurrUserPatientId, luxSelectedDay, selectedTimes);
+    await setAppointment(doctorId, currUserPatientId, luxSelectedDay, selectedTimes);
     const toastText = "Appointment booked for " + luxSelectedDay.toFormat('dd-LL-yyyy ') + selectedTimes[0];
     showToastFor5s({ toastText });
     navigate('/');

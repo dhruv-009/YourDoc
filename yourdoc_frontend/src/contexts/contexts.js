@@ -8,4 +8,4 @@ export const ToastDefaultValue = {
   toastType: '',
   showToastFor5s: ({ toastText, toastTitle, toastType }) => null
 }
-export const ToastContext = createContext(ToastDefaultValue)
+export const ToastContext = createContext(ToastDefaultValue);
