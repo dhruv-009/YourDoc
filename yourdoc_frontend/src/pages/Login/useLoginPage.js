@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import { useUser } from "../../hooks/useUser";
 
@@ -8,9 +8,8 @@ export const Fields = [
   { type: 'password', placeholder: 'Password', id: 'password', isRequired: true },
 ];
 
-export function useLoginPage() {
+export function useLoginPage(type) {
   const [loginState, setLoginState] = useState('isInit');
-  const { type } = useParams();
   const { getPatientAccessByEmailNPassword, getDoctorAccessByEmailNPassword } = useUser();
   const [, setCookie] = useCookies();
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ export function useLoginPage() {
     }
     setCookie("session", accessToken, { path: "/" });
     setLoginState('isSuccess');
-    navigate('/profile');
+    navigate(type ? '/profile/' + type : '/profile');
   }
 
   return { onSubmitLogin, loginState }

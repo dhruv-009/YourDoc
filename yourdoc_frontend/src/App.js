@@ -11,19 +11,21 @@ import { ThemeContext, ToastContext, ToastDefaultValue } from './contexts/contex
 import { Toast } from './components/Toast/Toast';
 import { Login } from './pages/Login/Login';
 import { SignUp } from './pages/SignUp/SignUp';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
-import UserProfile from './pages/AdminDashboard/UserProfile';
+import { AdminDashboard } from './pages/AdminDashboard/AdminDashboard';
+import { UserProfile } from './pages/AdminDashboard/UserProfile';
+import { DoctorProfile } from './pages/Doctor/DoctorProfile';
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/login", element: <Login /> },
-  { path: "/login/:type", element: <Login /> },
+  { path: "/login/doctor", element: <Login type="doctor" /> },
   { path: "/signup", element: <SignUp /> },
-  { path: "/signup/:type", element: <SignUp /> },
+  { path: "/signup/doctor", element: <SignUp type="doctor" /> },
   { path: "/about", element: <AboutUs /> },
   { path: "/contact", element: <Contact /> },
   { path: "/appointment/:doctorId", element: <Appointment /> },
   { path: "/profile", element: <Profile /> },
+  { path: "/profile/doctor", element: <DoctorProfile /> },
   { path: "/admindashboard", element: <AdminDashboard /> },
   { path: "/admindashboard/userProfile/:id", element: <UserProfile /> },
 ]);

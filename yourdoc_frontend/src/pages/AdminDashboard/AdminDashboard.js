@@ -5,11 +5,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import UserProfile from "./UserProfile";
 
 
-
-function AdminDashboard() {
+export function AdminDashboard() {
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -141,6 +139,4 @@ function AdminDashboard() {
     </>
   );
 };
-
-export default AdminDashboard;
 

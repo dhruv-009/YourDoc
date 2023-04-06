@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar } from "../../components/nav-bar";
 import { Overlay } from "../../components/Overlay";
 import { RadioInput2 } from "../../components/RadioInput";
@@ -6,9 +6,9 @@ import { Fields, useLoginPage } from "./useLoginPage";
 import './Login.css'
 import Footer from "../Footer";
 
-export function Login() {
-  const { onSubmitLogin, loginState } = useLoginPage();
-  const { type } = useParams();
+export function Login({ type }) {
+  const { onSubmitLogin, loginState } = useLoginPage(type);
+
   return <>
     <Navbar />
     <section className="min-h-full">

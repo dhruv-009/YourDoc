@@ -3,36 +3,27 @@ import { DateTime } from "luxon";
 import { useCookies } from "react-cookie";
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom'
-import { useUser } from "../../hooks/useUser";
 import { useAppointment } from "../../hooks/useAppointment";
 
 export function useProfilePage() {
-  const { getUserByIdNType } = useUser();
   const { getAppointmentsByPatientId } = useAppointment();
-  const [user, setUser] = useState();
   const [listData, setListData] = useState();
   const [cookie] = useCookies(["session"]);
   const navigate = useNavigate();
-  let patientId;
+  let user;
   try {
-    const { id } = jwtDecode(cookie.session);
-    patientId = id;
+    user = jwtDecode(cookie.session);
   } catch { }
 
   useEffect(() => {
-    if (!cookie.session) {
+    if (!user?.type) {
       navigate('/');
     }
-  }, [])
+  }, [user]);
 
   useEffect(() => {
     (async () => {
-      const user = await getUserByIdNType(patientId, 'patient');
-      setUser(user);
-    })();
-
-    (async () => {
-      const patientAppointments = await getAppointmentsByPatientId(patientId);
+      const patientAppointments = await getAppointmentsByPatientId(user.id);
       const listData = patientAppointments.map(pa => ({
         title: pa.name, subTitle: pa.specialization,
         rightText: DateTime.fromISO(pa.datetime).toFormat('dd-LL-yyyy hh:MM'),

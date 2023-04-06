@@ -30,5 +30,14 @@ export function useAppointment() {
     return data;
   }
 
-  return { setAppointment, loadingState, getAppointmentsByPatientId }
+  const getAppointmentsByDoctorId = async (patientId) => {
+    const { data } = await fetch(API_BASE_URL + `/appointment?doctor_id=${patientId}`).then(j => j.json())
+
+    return data;
+  }
+
+  return {
+    setAppointment, loadingState, getAppointmentsByPatientId,
+    getAppointmentsByDoctorId
+  }
 }

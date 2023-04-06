@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar } from "../../components/nav-bar";
 import { RadioInput2 } from "../../components/RadioInput";
 import { DoctorFields, Fields, useSignUpPage } from "./useSignUpPage";
@@ -6,9 +6,8 @@ import './SignUp.css';
 import { Overlay } from "../../components/Overlay";
 import Footer from "../Footer";
 
-export function SignUp() {
+export function SignUp({ type }) {
   const { onSubmitSignUp, signUpLoadingState } = useSignUpPage();
-  const { type } = useParams();
   const isDoctor = type === 'doctor';
   let formFields = Fields;
   if (isDoctor) {

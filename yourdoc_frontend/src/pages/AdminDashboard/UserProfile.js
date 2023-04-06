@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from "axios";
 import { AdminNavbar } from "../../components/adminNavbar";
-import { NavLink, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const UserProfile = () => {
+export const UserProfile = () => {
 
   const [getuserdata, setUserData] = useState([]);
   console.log(getuserdata);
@@ -81,5 +81,3 @@ const UserProfile = () => {
     </div>
   )
 }
-
-export default UserProfile;

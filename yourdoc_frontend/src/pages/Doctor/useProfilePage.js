@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
-import { useGetDoctor } from "../../hooks/useGetDoctor";
-import {useAppointment} from "../../hooks/useAppointment";
-import {useNavigate} from "react-router-dom";
-import {tempCurrUserPatientId} from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
+import jwtDecode from "jwt-decode";
+import { useAppointment } from "../../hooks/useAppointment";
+import { tempCurrUserPatientId } from "../../utils/constants";
+import { useCookies } from "react-cookie";
+
 export function useProfilePage() {
-  const { getDoctorById } = useGetDoctor();
   const { getAppointmentsByDoctorId } = useAppointment();
-  const [user, setUser] = useState();
+  let user;
   const [listData, setListData] = useState();
+  const [cookie] = useCookies(["session"]);
   const navigate = useNavigate();
+  try {
+    user = jwtDecode(cookie.session);
+  } catch { }
 
   useEffect(() => {
-    (async () => {
-      const user = await getDoctorById(tempCurrUserPatientId);
-      setUser(user);
-    })();
+    if (!user?.type) {
+      navigate('/');
+    }
+  }, [user])
 
+  useEffect(() => {
     (async () => {
       const doctorAppointments = await getAppointmentsByDoctorId(tempCurrUserPatientId);
       const listData = doctorAppointments.map(pa => ({
@@ -26,7 +32,7 @@ export function useProfilePage() {
       }))
       setListData(listData);
     })();
-  }, [])
+  }, []);
 
   return { user, listData }
 
