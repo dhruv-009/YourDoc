@@ -16,7 +16,7 @@ export function useUser() {
   const getPatientAccessByEmailNPassword = async (email, password) => {
     const body = JSON.stringify({ email, password });
 
-    const { data } = await fetch(API_BASE_URL + '/patientlogin', {
+    const { data, message } = await fetch(API_BASE_URL + '/patientlogin', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ export function useUser() {
       body
     }).then(j => j.json());
 
-    return data;
+    return { accessToken: data, message };
   }
 
   const getDoctorAccessByEmailNPassword = async (email, password) => {
@@ -40,7 +40,7 @@ export function useUser() {
       body
     }).then(j => j.json());
 
-    return data;
+    return { accessToken: data, message };
   }
 
 
