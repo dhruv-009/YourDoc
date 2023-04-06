@@ -46,16 +46,16 @@ export const DoctorFields = [
 
 ]
 
-export function useSignUpPage() {
+export function useSignUpPage(type) {
   const { setUserPatient } = useUser();
   const { showToastFor5s } = useContext(ToastContext);
   const navigate = useNavigate();
   const [signUpLoadingState, setSignUpLoadingState] = useState('isInit');
-
+  const formFields = type === 'doctor' ? DoctorFields : Fields;
 
   const onSubmitSignUp = async (e) => {
     e.preventDefault();
-    const formValues = Fields.reduce((p, c) => ({ ...p, [c.id]: e.target[c.id].value }), {});
+    const formValues = formFields.reduce((p, c) => ({ ...p, [c.id]: e.target[c.id].value }), {});
     try {
       setSignUpLoadingState('isLoading');
       await setUserPatient(formValues);
