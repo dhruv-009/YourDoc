@@ -64,7 +64,7 @@ async function getEmail(userId, bool) {
     const { name, email } = mail[0];
 
     try {
-      emailsender.sendEmail(name, email, bool);
+      // emailsender.sendEmail(name, email, bool);
     } catch (err) {
       console.error(`Error sending email`, err.message);
       next(err);

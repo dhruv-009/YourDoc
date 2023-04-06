@@ -11,6 +11,8 @@ import { ThemeContext, ToastContext, ToastDefaultValue } from './contexts/contex
 import { Toast } from './components/Toast/Toast';
 import { Login } from './pages/Login/Login';
 import { SignUp } from './pages/SignUp/SignUp';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import UserProfile from './pages/AdminDashboard/UserProfile';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/admindashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/admindashboard/userProfile/:id",
+    element: <UserProfile />
   },
 ]);
 

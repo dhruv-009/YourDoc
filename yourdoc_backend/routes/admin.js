@@ -12,6 +12,16 @@ router.get('/', async function (req, res, next) {
       }
   });
 
+  router.get('/:id', async function (req, res, next) {
+    try {
+        res.json(await admin.getDoctor(req.params.id));
+      }
+      catch (err) {
+        console.error(`Error while getting doctors `, err.message);
+        next(err);
+      }
+  });
+
   router.put('/:id', async function (req, res, next) {
     try{
         console.log(req.body);
