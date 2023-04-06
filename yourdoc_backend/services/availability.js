@@ -51,7 +51,7 @@ async function updateOrCreate(availability) {
     return create(availability);
   }
 
-  return { message, id };
+  return { message };
 }
 
 module.exports = { getByDoctorId, create, updateOrCreate }

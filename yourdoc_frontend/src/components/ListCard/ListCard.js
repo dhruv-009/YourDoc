@@ -1,4 +1,4 @@
-export function ListCard({ title, onViewAllClick, listData = [] }) {
+export function ListCard({ title, headerComponent, onViewAllClick, listData = [] }) {
   // list item should look like {title, subTitle, avatarURL, rightText, onItemClick }
   return <div className="min-w-[500px] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
     <div className="flex items-center justify-between mb-4">
@@ -10,6 +10,7 @@ export function ListCard({ title, onViewAllClick, listData = [] }) {
         : null
       }
     </div>
+    {headerComponent}
     <div className="flow-root">
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {listData.map(ld => <li onClick={ld.onItemClick} className="py-3 sm:py-4 hover:dark:bg-gray-900 cursor-pointer">

@@ -29,7 +29,7 @@ export function useProfilePage() {
         rightText: DateTime.fromISO(pa.datetime).toFormat('dd-LL-yyyy hh:MM'),
         onItemClick: () => navigate('/appointment/' + pa.doctor_id)
       }))
-      setListData(listData.length ? listData : [""]);
+      setListData(listData?.length ? listData : []);
     })();
   }, [])
 
