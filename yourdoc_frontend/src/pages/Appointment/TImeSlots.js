@@ -9,13 +9,15 @@ export function TimeSlots({
   const gapInMinutes = 30;
   const selectedDaySlots = availableSlots.filter(as => as.day.toLowerCase() === selectedDay.toLowerCase());
   const slots = [];
+  const nextSevenDays = Array(7).fill('').map((a, i) => DateTime.now().plus({ day: i }));
 
   selectedDaySlots.forEach(sds => {
     const { day, from_time: from, to_time: to } = sds;
-    const startTime = DateTime.fromFormat(from + ' ' + day, 'HH:mm:ss ccc');
-    const endTime = DateTime.fromFormat(to + ' ' + day, 'HH:mm:ss ccc');
-    const noOfTimesLoop = Math.round(Interval.fromDateTimes(startTime, endTime).length('minutes') / gapInMinutes);
+    const startDay = nextSevenDays.find(ns => ns.toFormat('ccc').toLowerCase() === day.toLowerCase());
+    let startTime = DateTime.fromFormat(from + ' ' + day + ' ' + startDay.toFormat('dd'), 'HH:mm:ss ccc dd');
+    let endTime = DateTime.fromFormat(to + ' ' + day + ' ' + startDay.toFormat('dd'), 'HH:mm:ss ccc dd');
 
+    const noOfTimesLoop = Math.round(Interval.fromDateTimes(startTime, endTime).length('minutes') / gapInMinutes);
 
     slots.push(Array(noOfTimesLoop).fill('').map((d, i) => {
       const luxCurrDateTime = startTime.plus({ minutes: gapInMinutes * i });
