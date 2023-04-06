@@ -18,11 +18,11 @@ router.post('/', async function (req, res, next) {
   try {
     const { data, message } = await user.patientInfo(req.body);
     if (!data) {
-      return res.status(401).send(message);
+      return res.status(401).json({ message });
     }
     const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
     res.cookie('session', accessToken);
-    res.json({ data: accessToken });
+    res.json({ data: accessToken, message });
   } catch (err) {
     console.error('Error while authenticating patient', err.message);
     next(err);

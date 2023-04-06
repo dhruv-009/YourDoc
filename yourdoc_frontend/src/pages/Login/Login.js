@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Navbar } from "../../components/nav-bar";
 import { Overlay } from "../../components/Overlay";
 import { RadioInput2 } from "../../components/RadioInput";
@@ -8,9 +8,10 @@ import Footer from "../Footer";
 
 export function Login() {
   const { onSubmitLogin, loginState } = useLoginPage();
+  const { type } = useParams();
   return <>
     <Navbar />
-    <section className="h-screen">
+    <section className="min-h-full">
       <div className="h-full dark:bg-gray-700">
         <div
           className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
@@ -25,9 +26,9 @@ export function Login() {
             <form onSubmit={onSubmitLogin}>
               {Fields.map(f => {
                 if (f.type === 'radio') {
-                  return <RadioInput2 options={f.options} label={f.placeholder} name={f.id} isRequired={f.isRequired} />
+                  return <RadioInput2 key={f.placeholder} options={f.options} label={f.placeholder} name={f.id} isRequired={f.isRequired} />
                 }
-                return <div className="relative mb-8" data-te-input-wrapper-init>
+                return <div className="relative mb-8" data-te-input-wrapper-init key={f.placeholder}>
                   <input
                     type={f.type}
                     className="txt peer block min-h-[auto] w-full rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
@@ -72,7 +73,7 @@ export function Login() {
                 <p className="mt-2 mb-0 pt-1 text-sm font-semibold">
                   Don't have an account?
                   <Link
-                    to="/signup"
+                    to={type ? "/signup/" + type : "/signup"}
                     className="text-red-500 transition duration-150 ease-in-out hover:text-red-500-600 focus:text-red-500-600 active:text-red-500-700"
                   >Register</Link>
                 </p>

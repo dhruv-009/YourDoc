@@ -1,13 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Navbar } from "../../components/nav-bar";
 import { RadioInput2 } from "../../components/RadioInput";
-import { Fields, useSignUpPage } from "./useSignUpPage";
+import { DoctorFields, Fields, useSignUpPage } from "./useSignUpPage";
 import './SignUp.css';
 import { Overlay } from "../../components/Overlay";
 import Footer from "../Footer";
 
 export function SignUp() {
   const { onSubmitSignUp, signUpLoadingState } = useSignUpPage();
+  const { type } = useParams();
+  const isDoctor = type === 'doctor';
+  let formFields = Fields;
+  if (isDoctor) {
+    formFields = DoctorFields;
+  }
 
   return <>
     <Navbar />
@@ -24,13 +30,13 @@ export function SignUp() {
           </div>
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
             <form onSubmit={onSubmitSignUp}>
-              {Fields.map(f => {
+              {formFields.map(f => {
                 if (f.type === 'radio') {
-                  return <div className="mb-8">
+                  return <div className="mb-8" key={f.placeholder}>
                     <RadioInput2 options={f.options} label={f.placeholder} name={f.id} isRequired={f.isRequired} />
                   </div>
                 }
-                return <div className="relative mb-8" data-te-input-wrapper-init>
+                return <div key={f.placeholder} className="relative mb-8" data-te-input-wrapper-init>
                   <input
                     type={f.type}
                     className="txt peer block min-h-[auto] w-full rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
@@ -76,7 +82,7 @@ export function SignUp() {
                 <p className="mt-2 mb-0 pt-1 text-sm font-semibold">
                   Have an account?
                   <Link
-                    to="/login"
+                    to={type ? "/login/" + type : "/login"}
                     className="text-red-500 transition duration-150 ease-in-out hover:text-red-500-600 focus:text-red-500-600 active:text-red-500-700"
                   >Login</Link>
                 </p>

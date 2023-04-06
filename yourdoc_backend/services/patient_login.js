@@ -27,7 +27,7 @@ async function patientInfo(creds) {
   if (data) {
     const isPasswordCorrect = await bcrypt.compare(password, data.password);
     if (isPasswordCorrect) {
-      return { data, message: 'success' }
+      return { data, message: 'success' };
     }
   }
 

@@ -15,42 +15,17 @@ import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import UserProfile from './pages/AdminDashboard/UserProfile';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
-  },
-  {
-    path: "/about",
-    element: <AboutUs />,
-  },
-  {
-    path: "/contact",
-    element: <Contact />,
-  },
-  {
-    path: "/appointment/:doctorId",
-    element: <Appointment />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/admindashboard",
-    element: <AdminDashboard />,
-  },
-  {
-    path: "/admindashboard/userProfile/:id",
-    element: <UserProfile />
-  },
+  { path: "/", element: <Home /> },
+  { path: "/login", element: <Login /> },
+  { path: "/login/:type", element: <Login /> },
+  { path: "/signup", element: <SignUp /> },
+  { path: "/signup/:type", element: <SignUp /> },
+  { path: "/about", element: <AboutUs /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "/appointment/:doctorId", element: <Appointment /> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/admindashboard", element: <AdminDashboard /> },
+  { path: "/admindashboard/userProfile/:id", element: <UserProfile /> },
 ]);
 
 export function App() {

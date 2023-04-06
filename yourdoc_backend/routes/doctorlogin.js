@@ -7,28 +7,27 @@ const authenticate = require('../authenticateUser');
 
 
 router.get('/', authenticate, async function (req, res, next) {
-    try {
-        res.json(await user.getById(req.body));
-    } catch (err) {
-        console.error(`Error while getting doctor `, err.message);
-        next(err);
-    }
+  try {
+    res.json(await user.getById(req.body));
+  } catch (err) {
+    console.error(`Error while getting doctor `, err.message);
+    next(err);
+  }
 });
 
 
-router.post('/', async function(req, res, next) {
-    try {
-      const patient = await user.doctorInfo(req.body);
-      if (patient == null) {
-        return res.status(400).send('Wrong credentials');
-      }
-      const accessToken = jwt.sign(patient, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
-      console.log(accessToken);
-      res.json({ accessToken: accessToken });
-    } catch (err) {
-      console.error('Error while authenticating patient', err.message);
-      next(err);
+router.post('/', async function (req, res, next) {
+  try {
+    const { data, message } = await user.doctorInfo(req.body);
+    if (!data) {
+      return res.status(401).json({ message });
     }
-  });
+    const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+    res.json({ data: accessToken, message });
+  } catch (err) {
+    console.error('Error while authenticating doctor', err.message);
+    next(err);
+  }
+});
 
 module.exports = router;

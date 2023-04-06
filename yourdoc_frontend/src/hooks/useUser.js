@@ -28,6 +28,22 @@ export function useUser() {
     return data;
   }
 
+  const getDoctorAccessByEmailNPassword = async (email, password) => {
+    const body = JSON.stringify({ email, password });
+
+    const { data, message } = await fetch(API_BASE_URL + '/doctorlogin', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body
+    }).then(j => j.json());
+
+    return data;
+  }
+
+
   const setUserPatient = async (user) => {
     // to send email remove no_email: true and just stringify user
     const body = JSON.stringify({ ...user, no_email: true });
@@ -41,5 +57,21 @@ export function useUser() {
     }).then(j => j.json());
   }
 
-  return { getUserById, getUserByIdNType, setUserPatient, getPatientAccessByEmailNPassword }
+  const setUserDoctor = async (user) => {
+    // to send email remove no_email: true and just stringify user
+    const body = JSON.stringify({ ...user, no_email: true });
+    await fetch(API_BASE_URL + '/doctorregistration', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body
+    }).then(j => j.json());
+  }
+
+  return {
+    getUserById, getUserByIdNType, setUserPatient, setUserDoctor,
+    getPatientAccessByEmailNPassword, getDoctorAccessByEmailNPassword
+  }
 }

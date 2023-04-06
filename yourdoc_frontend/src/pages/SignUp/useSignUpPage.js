@@ -27,6 +27,23 @@ export const Fields = [
       { value: 'other', label: 'Other' },
     ]
   }
+];
+
+export const DoctorFields = [
+  { type: 'text', placeholder: 'Full Name*', id: 'name', isRequired: true },
+  { type: 'email', placeholder: 'Email address*', id: 'email', isRequired: true },
+  { type: 'password', placeholder: 'Password*', id: 'password', isRequired: true },
+  { type: 'text', placeholder: 'Specialization*', id: 'specialization', isRequired: true },
+  { type: 'date', placeholder: 'Date Of Birth', id: 'dob' },
+  { type: 'text', placeholder: 'Address', id: 'address' },
+  {
+    type: 'radio', placeholder: 'Gender', id: 'gender', options: [
+      { value: 'male', label: 'Male' },
+      { value: 'female', label: 'Female' },
+      { value: 'other', label: 'Other' },
+    ]
+  }
+
 ]
 
 export function useSignUpPage() {
