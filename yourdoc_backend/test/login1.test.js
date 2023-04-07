@@ -136,7 +136,7 @@ describe('adminInfo function', () => {
 });
 
 
-describe('getById function', () => {
+describe('patient getById function', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
