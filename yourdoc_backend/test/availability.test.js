@@ -1,6 +1,5 @@
 const db = require('../services/db');
 const available = require('../services/availability');
-const { create } = require('../services/availability');
 const helper = require('../helper');
 const config = require('../dbconfig');
 const { v4: uuid } = require('uuid');
