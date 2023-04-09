@@ -11,7 +11,7 @@ async function getById(creds) {
   );
   let message = 'User not found!';
 
-  if (result) {
+  if (result && result.length > 0) {
     message = 'User found successfully';
   }
   return { result, message }
