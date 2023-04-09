@@ -1,5 +1,4 @@
 const express = require("express");
-// const nodemailer = require("nodemailer");
 
 
 const myemail = process.env.SENDER_EMAIL;

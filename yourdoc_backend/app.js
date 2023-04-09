@@ -23,7 +23,6 @@ const adminRouter = require('./routes/admin');
 dotenv.config();
 
 const app = express();
-// app.use(authenticateUserRouter);
 app.use(cors({ origin: 'http://localhost:3001', credentials: true, methods: 'GET,PUT,POST,DELETE,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }))
 app.use(logger('dev'));
 app.use(express.json());
