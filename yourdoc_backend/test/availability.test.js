@@ -60,7 +60,7 @@ describe('create', () => {
       jest.resetAllMocks();
     });
   
-    it('should create availability when inputs are valid', async () => {
+    test('should create availability when inputs are valid', async () => {
       const availability = { day: 'Monday', from_time: '09:00', to_time: '12:00', doctor_id: 1 };
       const id = '123';
       const result = { affectedRows: 1 };
@@ -75,7 +75,7 @@ describe('create', () => {
       expect(output).toEqual({ message: 'Availability created successfully', id });
     });
   
-    it('should return error message when create query returns affectedRows 0', async () => {
+    test('should return error message when create query returns affectedRows 0', async () => {
       const availability = { day: 'Tuesday', from_time: '10:00', to_time: '13:00', doctor_id: 2 };
       const id = '456';
       const result = { affectedRows: 0 };
@@ -90,7 +90,7 @@ describe('create', () => {
       expect(output).toEqual({ message: 'Error in creating availability', id });
     });
   
-    it('should throw error when create query fails', async () => {
+    test('should throw error when create query fails', async () => {
       const availability = { day: 'Wednesday', from_time: '11:00', to_time: '14:00', doctor_id: 3 };
       const error = new Error('Create query failed');
       db.query.mockRejectedValue(error);
@@ -98,6 +98,36 @@ describe('create', () => {
       await expect(available.create(availability)).rejects.toThrow(error);
       expect(db.query).toHaveBeenCalledWith(
         `INSERT INTO availability (id, day, from_time, to_time, user_id) VALUES ('${undefined}', '${availability.day}', '${availability.from_time}', '${availability.to_time}', '${availability.doctor_id}');`
+      );
+    });
+  });
+
+  describe('updateOrCreate', () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+  
+    test('should update availability when it exists', async () => {
+      const availability = { day: 'Monday', from_time: '09:00', to_time: '12:00', doctor_id: 1 };
+      const result = { affectedRows: 1 };
+      db.query.mockResolvedValue(result);
+  
+      const output = await available.updateOrCreate(availability);
+  
+      expect(db.query).toHaveBeenCalledWith(
+        `UPDATE availability SET from_time='${availability.from_time}',to_time='${availability.to_time}' WHERE day='${availability.day}' and user_id='${availability.doctor_id}';`
+      );
+      expect(output).toEqual({ message: 'Availability updated successfully' });
+    });
+  
+    test('should throw error when update or create query fails', async () => {
+      const availability = { day: 'Wednesday', from_time: '11:00', to_time: '14:00', doctor_id: 3 };
+      const error = new Error('Update or create query failed');
+      db.query.mockRejectedValue(error);
+  
+      await expect(available.updateOrCreate(availability)).rejects.toThrow(error);
+      expect(db.query).toHaveBeenCalledWith(
+        `UPDATE availability SET from_time='${availability.from_time}',to_time='${availability.to_time}' WHERE day='${availability.day}' and user_id='${availability.doctor_id}';`
       );
     });
   });

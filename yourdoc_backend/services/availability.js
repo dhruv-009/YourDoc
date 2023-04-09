@@ -32,10 +32,7 @@ async function updateOrCreate(availability) {
   const { day, from_time, to_time, doctor_id } = availability;
 
   const result = await db.query(
-    `UPDATE availability 
-    SET from_time='${from_time}',to_time='${to_time}'
-    WHERE day='${day}' and user_id='${doctor_id}';
-    `
+    `UPDATE availability SET from_time='${from_time}',to_time='${to_time}' WHERE day='${day}' and user_id='${doctor_id}';`
   );
 
   let message = 'Error in updating availability';
