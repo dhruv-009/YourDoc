@@ -4,17 +4,14 @@ const config = require('../dbconfig');
 const { v4: uuid } = require('uuid');
 
 async function getMultiple(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
+  const offset = helper.getOffset(config.listPerPage, page);
   const rows = await db.query(
     `SELECT name, email FROM user LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
 
-  return {
-    data,
-    meta
-  }
+  return { data, meta }
 }
 
 async function getById(userId) {
