@@ -15,7 +15,7 @@ exports.sendEmail = function (name, recipient_email, flag) {
 
   let mail_configs = {};
 
-  if (flag == true) {
+  if (flag) {
     mail_configs = {
       from: myemail,
       to: recipient_email,
