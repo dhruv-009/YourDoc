@@ -6,7 +6,7 @@ const myemail = process.env.SENDER_EMAIL;
 const mypassword = process.env.APPLICATION_PASSWORD;
 
 exports.sendEmail = function (name, recipient_email, flag) {
-  var transporter = nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
       user: myemail,
