@@ -4,7 +4,6 @@ const db = require('./db');
 const emailsender = require("./Email");
 
 async function getDoctors(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     'SELECT id, email, name, phone, dob, gender, address, latlong FROM user INNER JOIN doctor ON user.id = doctor.user_id WHERE doctor.is_approved = false;'
   );
@@ -60,9 +59,7 @@ async function getEmail(userId, bool) {
     const mail = await db.query(
       `SELECT name, email FROM user WHERE id="${userId}"`
     );
-
-    const { name, email } = mail[0];
-
+    
     try {
     } catch (err) {
       console.error(`Error sending email`, err.message);
