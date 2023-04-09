@@ -1,7 +1,5 @@
 const helper = require('../helper');
-const config = require('../dbconfig');
 const db = require('./db');
-const emailsender = require("./Email");
 
 async function getDoctors(page = 1) {
   const rows = await db.query(
@@ -56,9 +54,6 @@ async function rejectDoctor(userId) {
 
 async function getEmail(userId, bool) {
   try {
-    const mail = await db.query(
-      `SELECT name, email FROM user WHERE id="${userId}"`
-    );
     
     try {
     } catch (err) {
